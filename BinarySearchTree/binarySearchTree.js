@@ -29,6 +29,25 @@ class BinarySearchTree {
       }
     }
   }
+
+  insertRecursive(value) {
+    const insertNode = (node, value) => {
+      if (node === null) {
+        return new Node(value)
+      }
+
+      if (value < node.value) {
+        node.left = insertNode(node.left, value)
+      } else {
+        node.right = insertNode(node.right, value)
+      }
+
+      return node
+    }
+
+    this.root = insertNode(this.root, value)
+    return this
+  }
 }
 
 class Node {
@@ -39,11 +58,39 @@ class Node {
   }
 }
 
-const tree = new BinarySearchTree()
+// Iterative insert
+const iterativeTree = new BinarySearchTree()
 
-tree.insert(10)
-tree.insert(5)
-tree.insert(15)
-tree.insert(8)
+;[10, 5, 15, 8, 3, 12, 18].forEach((value) => {
+  iterativeTree.insert(value)
+})
 
-console.log(JSON.stringify(tree, null, 2))
+console.log('Iterative:')
+console.log(JSON.stringify(iterativeTree, null, 2))
+
+// Recursive insert
+const recursiveTree = new BinarySearchTree()
+
+;[10, 5, 15, 8, 3, 12, 18].forEach((value) => {
+  recursiveTree.insertRecursive(value)
+})
+
+console.log('\nRecursive:')
+console.log(JSON.stringify(recursiveTree, null, 2))
+
+// Empty tree -> first insertion
+const singleNodeTree = new BinarySearchTree()
+singleNodeTree.insertRecursive(42)
+
+console.log('\nSingle node:')
+console.log(JSON.stringify(singleNodeTree, null, 2))
+
+// Duplicates (duplicates go to the right)
+const duplicateTree = new BinarySearchTree()
+
+;[10, 10, 10].forEach((value) => {
+  duplicateTree.insertRecursive(value)
+})
+
+console.log('\nDuplicates:')
+console.log(JSON.stringify(duplicateTree, null, 2))
