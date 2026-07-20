@@ -30,6 +30,24 @@ class BinarySearchTree {
     }
   }
 
+  find(value) {
+    let currentNode = this.root
+
+    while (currentNode) {
+      if (currentNode.value === value) {
+        return currentNode
+      }
+
+      if (value < currentNode.value) {
+        currentNode = currentNode.left
+      } else {
+        currentNode = currentNode.right
+      }
+    }
+
+    return false
+  }
+
   insertRecursive(value) {
     const insertNode = (node, value) => {
       if (node === null) {
@@ -58,39 +76,31 @@ class Node {
   }
 }
 
-// Iterative insert
-const iterativeTree = new BinarySearchTree()
+const bst = new BinarySearchTree()
 
-;[10, 5, 15, 8, 3, 12, 18].forEach((value) => {
-  iterativeTree.insert(value)
-})
+bst.insert(10)
+bst.insert(5)
+bst.insert(15)
+bst.insert(2)
+bst.insert(7)
+bst.insert(12)
+bst.insert(20)
 
-console.log('Iterative:')
-console.log(JSON.stringify(iterativeTree, null, 2))
+console.log('find(10):', bst.find(10))
+console.log('find(5):', bst.find(5))
+console.log('find(15):', bst.find(15))
+console.log('find(2):', bst.find(2))
+console.log('find(7):', bst.find(7))
+console.log('find(12):', bst.find(12))
+console.log('find(20):', bst.find(20))
+console.log('find(13):', bst.find(13))
+console.log('find(-1):', bst.find(-1))
+console.log('find(100):', bst.find(100))
 
-// Recursive insert
-const recursiveTree = new BinarySearchTree()
+const empty = new BinarySearchTree()
+console.log('empty.find(5):', empty.find(5))
 
-;[10, 5, 15, 8, 3, 12, 18].forEach((value) => {
-  recursiveTree.insertRecursive(value)
-})
-
-console.log('\nRecursive:')
-console.log(JSON.stringify(recursiveTree, null, 2))
-
-// Empty tree -> first insertion
-const singleNodeTree = new BinarySearchTree()
-singleNodeTree.insertRecursive(42)
-
-console.log('\nSingle node:')
-console.log(JSON.stringify(singleNodeTree, null, 2))
-
-// Duplicates (duplicates go to the right)
-const duplicateTree = new BinarySearchTree()
-
-;[10, 10, 10].forEach((value) => {
-  duplicateTree.insertRecursive(value)
-})
-
-console.log('\nDuplicates:')
-console.log(JSON.stringify(duplicateTree, null, 2))
+const single = new BinarySearchTree()
+single.insert(42)
+console.log('single.find(42):', single.find(42))
+console.log('single.find(99):', single.find(99))
