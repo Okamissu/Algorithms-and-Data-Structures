@@ -108,6 +108,30 @@ class BinarySearchTree {
 
     return currentNode;
   }
+
+  findSecondLargest() {
+    if (!this.root || (!this.root.left && !this.root.right)) return undefined;
+
+    let parent = null;
+    let current = this.root;
+
+    while (current.right) {
+      parent = current;
+      current = current.right;
+    }
+
+    if (current.left) {
+      current = current.left;
+
+      while (current.right) {
+        current = current.right;
+      }
+
+      return current.value;
+    }
+
+    return parent.value;
+  }
 }
 
 class Node {
