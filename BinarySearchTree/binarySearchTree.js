@@ -132,6 +132,28 @@ class BinarySearchTree {
 
     return parent.value;
   }
+
+  findSecondLargestRecursive() {
+    if (!this.root || (!this.root.left && !this.root.right)) return undefined;
+
+    const largest = (node) => {
+      if (!node.right) return node;
+
+      return largest(node.right);
+    };
+
+    const secondLargest = (node, parent = null) => {
+      if (!node.right) {
+        if (node.left) return largest(node.left).value;
+
+        return parent.value;
+      }
+
+      return secondLargest(node.right, node);
+    };
+
+    return secondLargest(this.root);
+  }
 }
 
 class Node {
