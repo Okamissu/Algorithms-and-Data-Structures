@@ -154,6 +154,25 @@ class BinarySearchTree {
 
     return secondLargest(this.root);
   }
+
+  isBalanced() {
+    const dfs = (node) => {
+      if (!node) return { balanced: true, height: 0 };
+
+      const left = dfs(node.left);
+      const right = dfs(node.right);
+
+      return {
+        balanced:
+          left.balanced &&
+          right.balanced &&
+          Math.abs(left.height - right.height) <= 1,
+        height: 1 + Math.max(left.height, right.height),
+      };
+    };
+
+    return dfs(this.root).balanced;
+  }
 }
 
 class Node {
