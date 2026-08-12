@@ -173,6 +173,24 @@ class BinarySearchTree {
 
     return dfs(this.root).balanced;
   }
+
+  bfs() {
+    if (!this.root) return [];
+
+    const queue = [this.root];
+    const data = [];
+
+    for (let i = 0; i < queue.length; i++) {
+      const node = queue[i];
+
+      if (node.left) queue.push(node.left);
+      if (node.right) queue.push(node.right);
+
+      data.push(node.value);
+    }
+
+    return data;
+  }
 }
 
 class Node {
@@ -193,7 +211,4 @@ bst.insert(7);
 bst.insert(12);
 bst.insert(20);
 
-console.log(bst.find(12));
-console.log(bst.findRecursive(12));
-console.log(bst.find(100));
-console.log(bst.findRecursive(100));
+console.log(bst.bfs());
