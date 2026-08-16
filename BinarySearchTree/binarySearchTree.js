@@ -191,6 +191,28 @@ class BinarySearchTree {
 
     return data;
   }
+
+  dfs(order = 'inorder') {
+    const data = [];
+
+    const traverse = (node) => {
+      if (!node) return;
+
+      if (order === 'preorder') data.push(node.value);
+
+      traverse(node.left);
+
+      if (order === 'inorder') data.push(node.value);
+
+      traverse(node.right);
+
+      if (order === 'postorder') data.push(node.value);
+    };
+
+    traverse(this.root);
+
+    return data;
+  }
 }
 
 class Node {
@@ -212,3 +234,6 @@ bst.insert(12);
 bst.insert(20);
 
 console.log(bst.bfs());
+console.log(bst.dfs('preorder'));
+console.log(bst.dfs('inorder'));
+console.log(bst.dfs('postorder'));
