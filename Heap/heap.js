@@ -8,16 +8,16 @@ class MaxBinaryHeap {
 
   bubbleUp() {
     let index = this.values.length - 1;
-    const element = this.values[index];
 
     while (index > 0) {
-      let parentIndex = Math.floor((index - 1) / 2);
-      let parent = this.values[parentIndex];
+      const parentIndex = Math.floor((index - 1) / 2);
 
-      if (element <= parent) break;
+      if (this.values[index] <= this.values[parentIndex]) break;
 
-      this.values[parentIndex] = element;
-      this.values[index] = parent;
+      [this.values[index], this.values[parentIndex]] = [
+        this.values[parentIndex],
+        this.values[index],
+      ];
 
       index = parentIndex;
     }
