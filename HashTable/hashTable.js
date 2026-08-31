@@ -2,8 +2,7 @@ function simpleHash(key, arrayLen) {
   let total = 0;
   for (let char of key.toLowerCase()) {
     let value = char.charCodeAt(0) - 96;
-    console.log(value);
-    total = (total + value) & arrayLen;
+    total = (total + value) % arrayLen;
   }
   return total;
 }
