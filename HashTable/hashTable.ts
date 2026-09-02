@@ -33,12 +33,12 @@ class HashTable<K extends string = string, V = any> {
 
   get(key: K) {
     const index = this.#hash(key);
-    const foundItem = this.keyMap[index];
+    const bucket = this.keyMap[index];
 
-    if (!foundItem) return undefined;
-    if (foundItem.length === 1) return foundItem[0][1];
+    if (!bucket) return undefined;
+    if (bucket.length === 1) return bucket[0][1];
 
-    return foundItem.find((item) => item[0] === key)?.[1];
+    return bucket.find((item) => item[0] === key)?.[1];
   }
 }
 
