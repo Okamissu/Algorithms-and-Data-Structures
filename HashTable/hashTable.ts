@@ -30,13 +30,25 @@ class HashTable<K extends string = string, V = any> {
 
     return this;
   }
+
+  get(key: K) {
+    const index = this.#hash(key);
+    const foundItem = this.keyMap[index];
+
+    if (!foundItem) return undefined;
+    if (foundItem.length === 1) return foundItem[0];
+
+    return foundItem.find((item) => item[0] === key);
+  }
 }
 
 const ht = new HashTable();
 
-console.log(ht.set('hello world', 'goodbye'));
-console.log(ht.set('dog', 'goodbye'));
-console.log(ht.set('cat', 'goodbye'));
-console.log(ht.set('pizza', 'goodbye'));
+ht.set('hello world', 'goodbye');
+ht.set('dog', 'goodbye');
+ht.set('cat', 'goodbye');
+ht.set('pizza', 'goodbye');
 
 console.log(JSON.stringify(ht));
+
+console.log(ht.get('dog'));
