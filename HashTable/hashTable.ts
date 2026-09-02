@@ -21,22 +21,22 @@ class HashTable<K extends string = string, V = any> {
     return Math.abs(total % this.keyMap.length);
   }
 
-  // set(key: K, value: V) {
-  //   const index = this.#hash(key);
+  set(key: K, value: V) {
+    const index = this.#hash(key);
 
-  //   if (!this.keyMap[index]) this.keyMap[index] = [];
+    if (!this.keyMap[index]) this.keyMap[index] = [];
 
-  //   this.keyMap[index].push([key, value]);
+    this.keyMap[index].push([key, value]);
 
-  //   return this;
-  // }
+    return this;
+  }
 }
 
 const ht = new HashTable();
 
-// console.log(ht.set('hello world', 'goodbye'));
-// console.log(ht.set('dog', 'goodbye'));
-// console.log(ht.set('cat', 'goodbye'));
-// console.log(ht.set('pizza', 'goodbye'));
+console.log(ht.set('hello world', 'goodbye'));
+console.log(ht.set('dog', 'goodbye'));
+console.log(ht.set('cat', 'goodbye'));
+console.log(ht.set('pizza', 'goodbye'));
 
 console.log(JSON.stringify(ht));
