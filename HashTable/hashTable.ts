@@ -36,9 +36,9 @@ class HashTable<K extends string = string, V = any> {
     const foundItem = this.keyMap[index];
 
     if (!foundItem) return undefined;
-    if (foundItem.length === 1) return foundItem[0];
+    if (foundItem.length === 1) return foundItem[0][1];
 
-    return foundItem.find((item) => item[0] === key);
+    return foundItem.find((item) => item[0] === key)?.[1];
   }
 }
 
