@@ -40,6 +40,20 @@ class HashTable<K extends string = string, V = any> {
 
     return bucket.find((item) => item[0] === key)?.[1];
   }
+
+  delete(key: K) {
+    const index = this.#hash(key);
+    const bucket = this.keyMap[index];
+
+    if (!bucket) return false;
+
+    const itemIndex = bucket.findIndex(([k, _]) => k === key);
+    if (itemIndex === -1) return false;
+
+    bucket.splice(itemIndex, 1);
+    if (bucket.length === 0) this.keyMap[index] = undefined;
+    return true;
+  }
 }
 
 const ht = new HashTable();
