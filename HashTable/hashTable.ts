@@ -3,6 +3,7 @@ type Bucket<K, V> = KeyValuePair<K, V>[];
 
 class HashTable<K extends string = string, V = any> {
   private keyMap: Array<Bucket<K, V> | undefined>;
+
   constructor(size: number = 53) {
     this.keyMap = new Array(size);
   }
@@ -36,18 +37,18 @@ class HashTable<K extends string = string, V = any> {
     const bucket = this.keyMap[index];
 
     if (!bucket) return undefined;
-    if (bucket.length === 1) return bucket[0][1];
+    if (bucket.length === 1 && bucket[0][0] === key) return bucket[0][1];
 
     return bucket.find((item) => item[0] === key)?.[1];
   }
 
-  delete(key: K) {
+  delete(key: K): boolean {
     const index = this.#hash(key);
     const bucket = this.keyMap[index];
 
     if (!bucket) return false;
 
-    const itemIndex = bucket.findIndex(([k, _]) => k === key);
+    const itemIndex = bucket.findIndex(([k]) => k === key);
     if (itemIndex === -1) return false;
 
     bucket.splice(itemIndex, 1);
@@ -58,15 +59,48 @@ class HashTable<K extends string = string, V = any> {
   has(key: K): boolean {
     return this.get(key) !== undefined;
   }
+
+  display(): void {
+    this.keyMap.forEach((bucket, index) => {
+      if (bucket && bucket.length > 0) {
+        const formattedBucket = bucket
+          .map(([key, value]) => `[ ${key}: ${JSON.stringify(value)} ]`)
+          .join(', ');
+        console.log(`Bucket ${index}: ${formattedBucket}`);
+      }
+    });
+  }
 }
 
-const ht = new HashTable();
+// ==========================================
+// Examples & Usage Demonstration
+// ==========================================
 
+// 1. Initialize a small table (size 7) to make collisions easier to see
+const ht = new HashTable(7);
+
+console.log('--- 1. Setting Initial Keys ---');
+ht.set('cat', 'meow');
+ht.set('dog', 'woof');
+ht.set('pizza', 'delicious');
 ht.set('hello world', 'goodbye');
-ht.set('dog', 'goodbye');
-ht.set('cat', 'goodbye');
-ht.set('pizza', 'goodbye');
 
-console.log(JSON.stringify(ht));
+// Display internal storage
+ht.display();
 
-console.log(ht.get('dog'));
+console.log('\n--- 2. Retrieving Values (get) ---');
+console.log("get('dog'):", ht.get('dog')); // "woof"
+console.log("get('cat'):", ht.get('cat')); // "meow"
+console.log("get('missing'):", ht.get('missing')); // undefined
+
+console.log('\n--- 3. Checking Existence (has) ---');
+console.log("has('pizza'):", ht.has('pizza')); // true
+console.log("has('burger'):", ht.has('burger')); // false
+
+console.log('\n--- 4. Deleting Entries (delete) ---');
+console.log("delete('dog'):", ht.delete('dog')); // true
+console.log("delete('missing'):", ht.delete('missing')); // false
+console.log("has('dog') after deletion:", ht.has('dog')); // false
+
+console.log('\n--- 5. Hash Table State After Deletion ---');
+ht.display();
