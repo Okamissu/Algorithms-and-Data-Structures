@@ -54,6 +54,10 @@ class HashTable<K extends string = string, V = any> {
     if (bucket.length === 0) this.keyMap[index] = undefined;
     return true;
   }
+
+  has(key: K): boolean {
+    return this.get(key) !== undefined;
+  }
 }
 
 const ht = new HashTable();
