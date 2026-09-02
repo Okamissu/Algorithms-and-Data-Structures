@@ -1,9 +1,13 @@
-class HashTable {
-  constructor(size = 53) {
+type KeyValuePair<K, V> = [K, V];
+type Bucket<K, V> = KeyValuePair<K, V>[];
+
+class HashTable<K extends string = string, V = any> {
+  private keyMap: Array<Bucket<K, V> | undefined>;
+  constructor(size: number = 53) {
     this.keyMap = new Array(size);
   }
 
-  #hash(key) {
+  #hash(key: K): number {
     let total = 0;
     const WEIRD_PRIME = 31;
 
