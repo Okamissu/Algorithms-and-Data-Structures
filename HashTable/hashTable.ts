@@ -10,11 +10,12 @@ class HashTable<K extends string = string, V = any> {
   #hash(key: K): number {
     let total = 0;
     const WEIRD_PRIME = 31;
+    const lowerKey = key.toLowerCase();
 
-    for (let i = 0; i < Math.min(key.length, 100); i++) {
-      let char = key[i];
-      let value = char.charCodeAt(0) - 96;
-      total = (total * WEIRD_PRIME + value) % this.keyMap.length;
+    for (let i = 0; i < Math.min(lowerKey.length, 100); i++) {
+      const char = lowerKey[i];
+      const value = char.charCodeAt(0) - 96;
+      total = Math.abs((total * WEIRD_PRIME + value) % this.keyMap.length);
     }
 
     return total;
