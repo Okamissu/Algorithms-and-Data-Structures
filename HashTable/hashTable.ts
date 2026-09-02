@@ -60,6 +60,34 @@ class HashTable<K extends string = string, V = any> {
     return this.get(key) !== undefined;
   }
 
+  keys(): K[] {
+    const keysArr: K[] = [];
+
+    for (const bucket of this.keyMap) {
+      if (bucket) {
+        for (const [key] of bucket) {
+          keysArr.push(key);
+        }
+      }
+    }
+
+    return keysArr;
+  }
+
+  values(): V[] {
+    const valuesArr: V[] = [];
+
+    for (const bucket of this.keyMap) {
+      if (bucket) {
+        for (const [_, value] of bucket) {
+          valuesArr.push(value);
+        }
+      }
+    }
+
+    return valuesArr;
+  }
+
   display(): void {
     this.keyMap.forEach((bucket, index) => {
       if (bucket && bucket.length > 0) {
@@ -104,3 +132,7 @@ console.log("has('dog') after deletion:", ht.has('dog')); // false
 
 console.log('\n--- 5. Hash Table State After Deletion ---');
 ht.display();
+
+console.log('\n--- 6. Keys & Values ---');
+console.log('keys():', ht.keys());
+console.log('values():', ht.values());
