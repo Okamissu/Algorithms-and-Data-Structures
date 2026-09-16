@@ -1,65 +1,66 @@
 class Graph {
-  private adjacencyList: Record<string, string[]>;
+  private adjacencyList: Record<string, string[]> = {};
 
-  constructor() {
-    this.adjacencyList = {};
-  }
-
-  addVertex(vertex: string) {
-    if (!vertex) return;
+  addVertex(vertex: string): void {
+    if (!vertex.trim()) return;
 
     if (!this.adjacencyList[vertex]) {
       this.adjacencyList[vertex] = [];
     }
   }
 
-  addEdge(vertex1: string, vertex2: string) {
+  addEdge(vertex1: string, vertex2: string): void {
     this.addVertex(vertex1);
     this.addVertex(vertex2);
 
-    this.adjacencyList[vertex1].push(vertex2);
-    this.adjacencyList[vertex2].push(vertex1);
+    if (!this.adjacencyList[vertex1].includes(vertex2)) {
+      this.adjacencyList[vertex1].push(vertex2);
+    }
+
+    if (!this.adjacencyList[vertex2].includes(vertex1)) {
+      this.adjacencyList[vertex2].push(vertex1);
+    }
   }
 
-  removeEdge(vertex1: string, vertex2: string) {
+  removeEdge(vertex1: string, vertex2: string): void {
     if (!this.adjacencyList[vertex1] || !this.adjacencyList[vertex2]) {
       return;
     }
 
     this.adjacencyList[vertex1] = this.adjacencyList[vertex1].filter(
-      (v) => v !== vertex2,
+      (vertex) => vertex !== vertex2,
     );
 
     this.adjacencyList[vertex2] = this.adjacencyList[vertex2].filter(
-      (v) => v !== vertex1,
+      (vertex) => vertex !== vertex1,
     );
   }
 
-  removeVertex(vertex: string) {
+  removeVertex(vertex: string): void {
     if (!this.adjacencyList[vertex]) return;
 
-    for (const edge of [...this.adjacencyList[vertex]]) {
-      this.removeEdge(vertex, edge);
+    for (const neighbor of this.adjacencyList[vertex]) {
+      this.removeEdge(vertex, neighbor);
     }
 
     delete this.adjacencyList[vertex];
   }
 
-  depthFirstRecursive(start: string) {
+  depthFirstRecursive(start: string): string[] {
     const result: string[] = [];
-    const visited: Record<string, boolean> = {};
+    const visited = new Set<string>();
 
-    const dfs = (vertex: string) => {
+    const dfs = (vertex: string): void => {
       if (!this.adjacencyList[vertex]) return;
 
-      visited[vertex] = true;
+      visited.add(vertex);
       result.push(vertex);
 
-      this.adjacencyList[vertex].forEach((neighbor) => {
-        if (!visited[neighbor]) {
+      for (const neighbor of this.adjacencyList[vertex]) {
+        if (!visited.has(neighbor)) {
           dfs(neighbor);
         }
-      });
+      }
     };
 
     dfs(start);
