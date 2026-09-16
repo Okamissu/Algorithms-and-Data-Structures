@@ -44,6 +44,28 @@ class Graph {
 
     delete this.adjacencyList[vertex];
   }
+
+  depthFirstRecursive(start: string) {
+    const result: string[] = [];
+    const visited: Record<string, boolean> = {};
+
+    const dfs = (vertex: string) => {
+      if (!this.adjacencyList[vertex]) return;
+
+      visited[vertex] = true;
+      result.push(vertex);
+
+      this.adjacencyList[vertex].forEach((neighbor) => {
+        if (!visited[neighbor]) {
+          dfs(neighbor);
+        }
+      });
+    };
+
+    dfs(start);
+
+    return result;
+  }
 }
 
 const graph = new Graph();
@@ -52,14 +74,17 @@ graph.addVertex('A');
 graph.addVertex('B');
 graph.addVertex('C');
 graph.addVertex('D');
+graph.addVertex('E');
+graph.addVertex('F');
 
 graph.addEdge('A', 'B');
 graph.addEdge('A', 'C');
 graph.addEdge('B', 'D');
-graph.addEdge('C', 'D');
-
-// graph.removeEdge('A', 'B');
-
-graph.removeVertex('C');
+graph.addEdge('C', 'E');
+graph.addEdge('D', 'E');
+graph.addEdge('D', 'F');
+graph.addEdge('E', 'F');
 
 console.log(JSON.stringify(graph, null, 2));
+
+console.log(graph.depthFirstRecursive('A'));
