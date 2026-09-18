@@ -91,6 +91,29 @@ class Graph {
 
     return result;
   }
+
+  breadthFirstSearch(start: string): string[] {
+    if (!this.adjacencyList[start]) return [];
+
+    const queue: string[] = [start];
+    const result: string[] = [];
+    const visited = new Set<string>();
+
+    visited.add(start);
+
+    while (queue.length > 0) {
+      const current = queue.shift()!;
+      result.push(current);
+
+      for (const neighbor of this.adjacencyList[current]) {
+        if (!visited.has(neighbor)) {
+          visited.add(neighbor);
+          queue.push(neighbor);
+        }
+      }
+    }
+    return result;
+  }
 }
 
 const graph = new Graph();
@@ -114,3 +137,4 @@ console.log(JSON.stringify(graph, null, 2));
 
 console.log(graph.depthFirstRecursive('A'));
 console.log(graph.depthFirstIterative('A'));
+console.log(graph.breadthFirstSearch('A'));
