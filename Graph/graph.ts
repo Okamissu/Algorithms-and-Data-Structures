@@ -13,6 +13,8 @@ class Graph {
     this.addVertex(vertex1);
     this.addVertex(vertex2);
 
+    if (!this.adjacencyList[vertex1] || !this.adjacencyList[vertex2]) return;
+
     if (!this.adjacencyList[vertex1].includes(vertex2)) {
       this.adjacencyList[vertex1].push(vertex2);
     }
