@@ -27,7 +27,6 @@ class Stack {
   }
 }
 
-// QUEUE AND NODE HAVE BEEN IMPLEMENTED FOR YOU
 
 class Node {
   constructor(value) {
