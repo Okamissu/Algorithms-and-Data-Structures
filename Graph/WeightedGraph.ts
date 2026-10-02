@@ -1,11 +1,9 @@
-import PriorityQueue from './PriorityQueue';
-
 type Vertex = {
   node: string;
   weight: number;
 };
 
-class WeightedGraph {
+export default class WeightedGraph {
   private adjacencyList: Record<string, Vertex[]> = {};
 
   addVertex(vertex: string): void {
