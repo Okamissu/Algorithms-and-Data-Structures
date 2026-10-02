@@ -1,3 +1,5 @@
+import PriorityQueue from './PriorityQueue';
+
 type Vertex = {
   node: string;
   weight: number;
