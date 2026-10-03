@@ -4,7 +4,7 @@ type Vertex = {
 };
 
 export default class WeightedGraph {
-  private adjacencyList: Record<string, Vertex[]> = {};
+  protected adjacencyList: Record<string, Vertex[]> = {};
 
   addVertex(vertex: string): void {
     if (!this.adjacencyList[vertex]) {
