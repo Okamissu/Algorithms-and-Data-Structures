@@ -41,8 +41,8 @@ class Graph {
   removeVertex(vertex: string): void {
     if (!this.adjacencyList[vertex]) return;
 
-    for (const neighbor of this.adjacencyList[vertex]) {
-      this.removeEdge(vertex, neighbor);
+    for (const neighbour of this.adjacencyList[vertex]) {
+      this.removeEdge(vertex, neighbour);
     }
 
     delete this.adjacencyList[vertex];
@@ -58,9 +58,9 @@ class Graph {
       visited.add(vertex);
       result.push(vertex);
 
-      for (const neighbor of this.adjacencyList[vertex]) {
-        if (!visited.has(neighbor)) {
-          dfs(neighbor);
+      for (const neighbour of this.adjacencyList[vertex]) {
+        if (!visited.has(neighbour)) {
+          dfs(neighbour);
         }
       }
     };
@@ -83,10 +83,10 @@ class Graph {
       const current = stack.pop()!;
       result.push(current);
 
-      for (const neighbor of this.adjacencyList[current]) {
-        if (!visited.has(neighbor)) {
-          visited.add(neighbor);
-          stack.push(neighbor);
+      for (const neighbour of this.adjacencyList[current]) {
+        if (!visited.has(neighbour)) {
+          visited.add(neighbour);
+          stack.push(neighbour);
         }
       }
     }
@@ -107,10 +107,10 @@ class Graph {
       const current = queue.shift()!;
       result.push(current);
 
-      for (const neighbor of this.adjacencyList[current]) {
-        if (!visited.has(neighbor)) {
-          visited.add(neighbor);
-          queue.push(neighbor);
+      for (const neighbour of this.adjacencyList[current]) {
+        if (!visited.has(neighbour)) {
+          visited.add(neighbour);
+          queue.push(neighbour);
         }
       }
     }
