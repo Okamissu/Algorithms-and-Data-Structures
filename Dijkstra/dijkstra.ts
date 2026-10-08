@@ -2,11 +2,12 @@ import PriorityQueue from '../Heap/PriorityQueue.ts';
 import WeightedGraph from '../Graph/WeightedGraph.ts';
 
 class DijkstraWeightedGraph extends WeightedGraph {
-  dijkstra(start: string, finish: string) {
+  dijkstra(start: string, finish: string): [number, string[]] | [] {
     const nodes = new PriorityQueue<string>();
     const distances: Record<string, number> = {};
     const previous: Record<string, string | null> = {};
 
+    // Initialize distances and previous vertices
     for (const vertex in this.adjacencyList) {
       if (vertex === start) {
         distances[vertex] = 0;
@@ -22,7 +23,9 @@ class DijkstraWeightedGraph extends WeightedGraph {
     while (nodes.values.length) {
       const smallest = nodes.dequeue()?.value;
 
-      if (!smallest) break;
+      if (smallest === undefined) {
+        break;
+      }
 
       // Found the shortest path to the destination
       if (smallest === finish) {
@@ -30,13 +33,15 @@ class DijkstraWeightedGraph extends WeightedGraph {
         let current: string | null = finish;
 
         // Walk backwards from finish to start
-        while (current) {
+        while (current !== null) {
           path.push(current);
           current = previous[current];
         }
 
-        // Built the path backwards, so reverse it
-        return path.reverse();
+        // Path was built backwards
+        path.reverse();
+
+        return [distances[finish], path];
       }
 
       // No reachable vertices left
@@ -44,16 +49,13 @@ class DijkstraWeightedGraph extends WeightedGraph {
         break;
       }
 
-      // Check every neighbour of the current vertex
-      for (const neighbour in this.adjacencyList[smallest]) {
-        const nextNode = this.adjacencyList[smallest][neighbour];
-
-        // Distance: start -> current -> neighbour
+      // Check every neighbour
+      for (const nextNode of this.adjacencyList[smallest]) {
         const candidate = distances[smallest] + nextNode.weight;
 
         const nextNeighbour = nextNode.node;
 
-        // Is this route shorter?
+        // Found a shorter route
         if (candidate < distances[nextNeighbour]) {
           distances[nextNeighbour] = candidate;
           previous[nextNeighbour] = smallest;
@@ -86,6 +88,6 @@ graph.addEdge('D', 'E', 3);
 graph.addEdge('D', 'F', 1);
 graph.addEdge('E', 'F', 1);
 
-const path = graph.dijkstra('A', 'E');
+const result = graph.dijkstra('A', 'E');
 
-console.log(path);
+console.log(result);
